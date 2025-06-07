@@ -44,18 +44,12 @@ abstract contract BaseTest is PRBTest, StdCheats, StdUtils {
     //////////////////////////////////////////////////////////////*/
 
     /// @dev Generates a user, labels its address, and funds it with 100 test ether.
-    function _createUser(string memory name)
-        internal
-        returns (address payable)
-    {
+    function _createUser(string memory name) internal returns (address payable) {
         return _createUser(name, 100 ether);
     }
 
     /// @dev Generates a user, labels its address, and funds it with test balance.
-    function _createUser(string memory name, uint256 balance)
-        internal
-        returns (address payable)
-    {
+    function _createUser(string memory name, uint256 balance) internal returns (address payable) {
         address payable user = payable(makeAddr(name));
         vm.deal({account: user, newBalance: balance});
         return user;
@@ -76,11 +70,7 @@ abstract contract BaseTest is PRBTest, StdCheats, StdUtils {
     }
 
     /// @dev Helper function that multiplies the `amount` by `10^decimals` and returns a `uint256.`
-    function _bn(uint256 amount, uint256 decimals)
-        internal
-        pure
-        returns (uint256 result)
-    {
-        result = amount * 10**decimals;
+    function _bn(uint256 amount, uint256 decimals) internal pure returns (uint256 result) {
+        result = amount * 10 ** decimals;
     }
 }

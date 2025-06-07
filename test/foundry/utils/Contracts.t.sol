@@ -6,20 +6,12 @@ import "./Base.t.sol";
 import {Automate} from "../../../contracts/Automate.sol";
 import {OpsProxy} from "../../../contracts/opsProxy/OpsProxy.sol";
 import {OpsProxyFactory} from "../../../contracts/opsProxy/OpsProxyFactory.sol";
-import {
-    ResolverModule
-} from "../../../contracts/taskModules/ResolverModule.sol";
+import {ResolverModule} from "../../../contracts/taskModules/ResolverModule.sol";
 import {ProxyModule} from "../../../contracts/taskModules/ProxyModule.sol";
-import {
-    SingleExecModule
-} from "../../../contracts/taskModules/SingleExecModule.sol";
-import {
-    Web3FunctionModule
-} from "../../../contracts/taskModules/Web3FunctionModule.sol";
+import {SingleExecModule} from "../../../contracts/taskModules/SingleExecModule.sol";
+import {Web3FunctionModule} from "../../../contracts/taskModules/Web3FunctionModule.sol";
 import {TriggerModule} from "../../../contracts/taskModules/TriggerModule.sol";
-import {
-    EIP173Proxy
-} from "../../../contracts/vendor/proxy/EIP173/EIP173Proxy.sol";
+import {EIP173Proxy} from "../../../contracts/vendor/proxy/EIP173/EIP173Proxy.sol";
 import {LibDataTypes} from "../../../contracts/libraries/LibDataTypes.sol";
 
 // solhint-disable max-states-count
@@ -59,29 +51,17 @@ abstract contract Contracts is BaseTest {
 
     function _deployAutomate() internal {
         Automate automateImplementation = new Automate(_users.gelato);
-        EIP173Proxy proxy = new EIP173Proxy(
-            address(automateImplementation),
-            _users.deployer,
-            bytes("")
-        );
+        EIP173Proxy proxy = new EIP173Proxy(address(automateImplementation), _users.deployer, bytes(""));
 
         automate = Automate(address(proxy));
     }
 
     function _deployOpsProxyFactory() internal {
         OpsProxy opsProxyImplementation = new OpsProxy(address(automate));
-        OpsProxyFactory opsProxyFactoryImplementation = new OpsProxyFactory(
-            address(automate)
-        );
-        bytes memory initData = abi.encodeWithSelector(
-            OpsProxyFactory.initialize.selector,
-            address(opsProxyImplementation)
-        );
-        EIP173Proxy proxy = new EIP173Proxy(
-            address(opsProxyFactoryImplementation),
-            _users.deployer,
-            initData
-        );
+        OpsProxyFactory opsProxyFactoryImplementation = new OpsProxyFactory(address(automate));
+        bytes memory initData =
+            abi.encodeWithSelector(OpsProxyFactory.initialize.selector, address(opsProxyImplementation));
+        EIP173Proxy proxy = new EIP173Proxy(address(opsProxyFactoryImplementation), _users.deployer, initData);
         opsProxyFactory = OpsProxyFactory(address(proxy));
     }
 
